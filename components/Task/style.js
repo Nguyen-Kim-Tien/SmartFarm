@@ -16,9 +16,14 @@ const styles = StyleSheet.create({
     width: 48,
     height: 36,
     borderRadius: 10,
-    backgroundColor: color.second,
     justifyContent: "center",
     alignItems: "center",
+  },
+  even: {
+    backgroundColor: color.green,
+  },
+  odd: {
+    backgroundColor: color.second,
   },
   number: {
     fontSize: 16,
