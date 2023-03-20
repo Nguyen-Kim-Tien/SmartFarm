@@ -1,47 +1,40 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
-import Task from "./components/Task";
-import styles from "./App.components.style";
-import Form from "./components/Form";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import Setting from "./components/Setting";
+import ViewDeviceList from "./components/ViewDeviceList";
+import HumiditySensor from "./components/HumiditySensor";
+import Detail from "./components/Detail";
+import Automatic from "./components/Automatic";
+import Manual from "./components/Manual";
 
-export default function App() {
-  const [taskList, setTaskList] = useState([]);
+const Stack = createStackNavigator();
 
-  const handleAddTASK = (task) => {
-    setTaskList([...taskList, task]);
-  };
-  const handleDeleteTask = (index) => {
-    Alert.alert("Thông báo !!!", "Bạn có chắc chắn muốn xóa ?", [
-      {
-        text: "OK",
-        onPress: () => {
-          let taskListTmp = [...taskList];
-          taskListTmp.splice(index, 1);
-          setTaskList(taskListTmp);
-        },
-      },
-      { text: "cancel", onPress: () => {} },
-    ]);
-  };
-
+const App = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.body}>
-        <Text style={styles.header}>Todo List</Text>
-        <ScrollView style={styles.items}>
-          {taskList.map((item, index) => {
-            return (
-              <Task
-                key={index}
-                title={item}
-                number={index + 1}
-                onDeleteTask={() => handleDeleteTask(index)}
-              />
-            );
-          })}
-        </ScrollView>
-      </View>
-      <Form onAddTASK={handleAddTASK} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Setting" component={Setting} />
+        <Stack.Screen name="ViewDeviceList" component={ViewDeviceList} />
+        <Stack.Screen name="HumiditySensor" component={HumiditySensor} />
+        <Stack.Screen name="Detail" component={Detail} />
+        <Stack.Screen name="Automatic" component={Automatic} />
+        <Stack.Screen name="Manual" component={Manual} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default App;
