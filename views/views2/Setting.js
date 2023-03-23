@@ -16,6 +16,9 @@ const Setting = () => {
   const handleViewDeviceList = () => {
     navigation.navigate("ViewDeviceList");
   };
+  const handleLogout = () => {
+    navigation.navigate("Login");
+  };
   const [toggle1, setToggle1] = useState(false);
   const [toggle2, setToggle2] = useState(false);
   return (
@@ -24,7 +27,7 @@ const Setting = () => {
         <View style={styles.userInfo}>
           <Image
             source={{
-              uri: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=yyqrNnS37uQAX_711RT&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfDtS7b9pERnmN5-mJtJH6J13Ss2HDlvfKjWeQMYWYC2eQ&oe=64175225",
+              uri: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=YEQXkLuAfogAX8O5ilP&_nc_ht=scontent.fhan14-3.fna&oh=00_AfAWqSMXEFhp9JCszBcRnx3MES0NQDbNMM6OXJbZNTx_8w&oe=641F3B25",
             }}
             style={styles.userAvatar}
           />
@@ -33,23 +36,23 @@ const Setting = () => {
       </View>
 
       <View style={styles.content}>
-        <Text style={styles.redText}>Settings</Text>
+        <Text style={styles.redText}>Cài đặt</Text>
         <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Edit Profile</Text>
+          <Text style={styles.text}>Chỉnh sửa thông tin cá nhân</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Change Password</Text>
+          <Text style={styles.text}>Thay đổi mật khẩu</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.rowContainer}>
           <Text style={styles.text} onPress={handleViewDeviceList}>
-            View device list
+            Xem danh sách thiết bị
           </Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
         <View style={styles.toggleContainer}>
-          <Text style={styles.text}>Push Notifications</Text>
+          <Text style={styles.text}>Nhận thông báo</Text>
           <Switch
             trackColor={{ true: "red", false: "grey" }}
             thumbColor="#FFF"
@@ -58,7 +61,7 @@ const Setting = () => {
           />
         </View>
         <View style={styles.toggleContainer}>
-          <Text style={styles.text}>Dark Mode</Text>
+          <Text style={styles.text}>Chế độ tối</Text>
           <Switch
             trackColor={{ true: "red", false: "grey" }}
             thumbColor="#FFF"
@@ -66,6 +69,10 @@ const Setting = () => {
             onValueChange={setToggle2}
           />
         </View>
+        <TouchableOpacity style={styles.rowContainer} onPress={handleLogout}>
+          <Text style={styles.text}>Đăng xuất</Text>
+          <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
+        </TouchableOpacity>
       </View>
     </View>
   );

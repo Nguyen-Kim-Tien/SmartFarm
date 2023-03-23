@@ -15,39 +15,39 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Xử lý đăng nhập tại đây
-    navigation.navigate("Home");
+    navigation.navigate("Option");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Account Login</Text>
+      <Text style={styles.title}>Đăng nhập tài khoản</Text>
       <View style={styles.form}>
-        <Text style={styles.bigTitle}>Welcome</Text>
-        <Text style={styles.formTitle}>Login to your account</Text>
+        <Text style={styles.bigTitle}>Chào mừng</Text>
+        <Text style={styles.formTitle}>Đăng nhập tài khoản của bạn</Text>
         <Text style={styles.label}>Email:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your email"
+          placeholder="Nhập email"
           value={email}
           onChangeText={setEmail}
         />
-        <Text style={styles.label}>Password:</Text>
+        <Text style={styles.label}>Mật khẩu:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your password"
+          placeholder="Nhập mật khẩu"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Đăng nhập</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.forgotPassword}>Forgot Password</Text>
+          <Text style={styles.forgotPassword}>Quên mật khẩu</Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.createAccount}>
-            Don't have account. Create Now
+            Bạn chưa có tài khoản. Tạo ngay
           </Text>
         </TouchableOpacity>
       </View>

@@ -16,12 +16,12 @@ export default function App() {
 
   const handleSave = () => {
     // handle save logic here
-    ToastAndroid.show("Saved successfully!", ToastAndroid.SHORT);
+    ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>1. Choose plants to water:</Text>
+      <Text style={styles.question}>1. Chọn loại cây cần tưới:</Text>
       <View style={styles.radioContainer}>
         <View style={styles.radioItem}>
           <TouchableOpacity
@@ -30,7 +30,7 @@ export default function App() {
             }
             onPress={() => handlePlantSelection("Cabbage")}
           >
-            <Text style={styles.radioText}>Cabbage</Text>
+            <Text style={styles.radioText}>Cải bắp</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem}>
@@ -42,7 +42,7 @@ export default function App() {
             }
             onPress={() => handlePlantSelection("Mango tree")}
           >
-            <Text style={styles.radioText}>Mango tree</Text>
+            <Text style={styles.radioText}>Cây xoài</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem}>
@@ -54,11 +54,11 @@ export default function App() {
             }
             onPress={() => handlePlantSelection("Apple tree")}
           >
-            <Text style={styles.radioText}>Apple tree</Text>
+            <Text style={styles.radioText}>Cây táo</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.question}>2. Choose automatic watering systems:</Text>
+      <Text style={styles.question}>2. Chọn hệ thống tưới:</Text>
       <View style={styles.radioContainer}>
         <View style={styles.radioItem2}>
           <TouchableOpacity
@@ -69,7 +69,7 @@ export default function App() {
             }
             onPress={() => handleSystemSelection("Drip irrigation system")}
           >
-            <Text style={styles.radioText}>Drip irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới nhỏ giọt</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem2}>
@@ -81,7 +81,7 @@ export default function App() {
             }
             onPress={() => handleSystemSelection("Sprinkler irrigation system")}
           >
-            <Text style={styles.radioText}>Sprinkler irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới phun sương</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem2}>
@@ -93,12 +93,12 @@ export default function App() {
             }
             onPress={() => handleSystemSelection("Lawn irrigation system")}
           >
-            <Text style={styles.radioText}>Lawn irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới cỏ</Text>
           </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>Thiết lập</Text>
       </TouchableOpacity>
     </View>
   );

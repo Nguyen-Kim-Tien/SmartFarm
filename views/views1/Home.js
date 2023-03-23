@@ -53,26 +53,33 @@ const data = [
 const HomeScreen = () => {
   const navigation = useNavigation();
   const handleClickSetting = () => {
-    navigation.navigate("Setting");
+    navigation.navigate("SettingView1");
   };
-  const handleLogin = () => {
-    navigation.navigate("Login");
-  };
+
   const handleAutomatic = () => {
-    navigation.navigate("Automatic");
+    navigation.navigate("AutomaticView1");
   };
   const handleManual = () => {
-    navigation.navigate("Manual");
+    navigation.navigate("ManualView1");
+  };
+  const handlePrice = () => {
+    navigation.navigate("Price");
+  };
+
+  const handleNews = () => {
+    navigation.navigate("News");
   };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Home</Text>
+        <Text style={styles.title}>Trang chủ</Text>
         <View style={styles.userInfo}>
-          <Text style={styles.userInfoText}>Good morning, IceTea</Text>
+          <Text style={styles.userInfoText}>
+            Chúc một ngày mới tốt lành, IceTea
+          </Text>
           <Image
             source={{
-              uri: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=yyqrNnS37uQAX_711RT&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfDtS7b9pERnmN5-mJtJH6J13Ss2HDlvfKjWeQMYWYC2eQ&oe=64175225",
+              uri: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=YEQXkLuAfogAX8O5ilP&_nc_ht=scontent.fhan14-3.fna&oh=00_AfAWqSMXEFhp9JCszBcRnx3MES0NQDbNMM6OXJbZNTx_8w&oe=641F3B25",
             }}
             style={styles.userAvatar}
           />
@@ -82,10 +89,10 @@ const HomeScreen = () => {
       <View style={styles.weather}>
         <View style={styles.rectangle1}>
           <View style={styles.left}>
-            <Text style={styles.label}>Temperature: 25 °C</Text>
+            <Text style={styles.label}>Nhiệt độ: 25 °C</Text>
 
-            <Text style={styles.label}>Humidity: 75 %</Text>
-            <Text style={styles.label}>Real feel: 26 °C</Text>
+            <Text style={styles.label}>Độ ẩm: 75 %</Text>
+            <Text style={styles.label}>Cảm giác như: 26 °C</Text>
           </View>
           <Image
             style={styles.image1}
@@ -108,12 +115,11 @@ const HomeScreen = () => {
       <View style={styles.autoWateringContainer}>
         <View style={[styles.autoWatering, styles.autoWatering1]}>
           <Text style={styles.textWatering}>
-            <Text style={styles.autoWateringTitle}>Automatic</Text>
-            <Text style={styles.autoWateringTitle}>Watering</Text>
+            <Text style={styles.autoWateringTitle}>Tưới tự động</Text>
           </Text>
           <View style={styles.wateringSetting}>
             <TouchableOpacity style={styles.autoWateringButton}>
-              <Text style={styles.autoWateringButtonText}>Watering</Text>
+              <Text style={styles.autoWateringButtonText}>Tưới</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleAutomatic}>
               <Image
@@ -128,12 +134,11 @@ const HomeScreen = () => {
 
         <View style={[styles.autoWatering, styles.autoWatering2]}>
           <Text style={styles.textWatering}>
-            <Text style={styles.autoWateringTitle}>Manual</Text>
-            <Text style={styles.autoWateringTitle}>Watering</Text>
+            <Text style={styles.autoWateringTitle}>Tưới thủ công</Text>
           </Text>
           <View style={styles.wateringSetting}>
             <TouchableOpacity style={styles.autoWateringButton}>
-              <Text style={styles.autoWateringButtonText}>Watering</Text>
+              <Text style={styles.autoWateringButtonText}>Tưới</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleManual}>
               <Image
@@ -163,7 +168,7 @@ const HomeScreen = () => {
             alignItems: "center",
             paddingVertical: 10,
           }}
-          onPress={handleLogin}
+          onPress={handlePrice}
         >
           <FontAwesome name="home" size={24} color="black" />
         </TouchableOpacity>
@@ -173,6 +178,7 @@ const HomeScreen = () => {
             alignItems: "center",
             paddingVertical: 10,
           }}
+          onPress={handleNews}
         >
           <FontAwesome name="search" size={24} color="black" />
         </TouchableOpacity>
