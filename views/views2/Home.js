@@ -100,6 +100,7 @@ const HomeScreen = () => {
             }}
           />
         </View>
+
         <ScrollView horizontal={true} style={styles.scrollView}>
           {data.map((item, index) => (
             <View key={index} style={styles.rectangle}>

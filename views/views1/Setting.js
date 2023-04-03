@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import TabBar from "../../components/TabBar";
 
 const Setting = () => {
   const navigation = useNavigation();
@@ -65,6 +66,7 @@ const Setting = () => {
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
       </View>
+      <TabBar />
     </View>
   );
 };

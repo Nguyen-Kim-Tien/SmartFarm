@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import NewsItem from "../../components/NewsItem";
+import TabBar from "../../components/TabBar";
 
 const newsData = [
   {
@@ -39,18 +40,23 @@ const newsData = [
 const News = () => {
   return (
     <View style={styles.container}>
-      <FlatList
-        data={newsData}
-        renderItem={({ item }) => (
-          <NewsItem
-            imageUri={item.imageUri}
-            title={item.title}
-            content={item.content}
-            date={item.date}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      <View style={styles.items}>
+        <FlatList
+          data={newsData}
+          renderItem={({ item }) => (
+            <NewsItem
+              imageUri={item.imageUri}
+              title={item.title}
+              content={item.content}
+              date={item.date}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+      <View>
+        <TabBar />
+      </View>
     </View>
   );
 };
@@ -60,7 +66,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "stretch",
-    justifyContent: "center",
+    justifyContent: "space-between",
+  },
+  items: {
     padding: 10,
   },
 });

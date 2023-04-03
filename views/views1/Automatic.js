@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid } from "react-native";
 
-export default function App() {
+export default function Automatic() {
   const [selectedPlant, setSelectedPlant] = useState("");
   const [selectedSystem, setSelectedSystem] = useState("");
+
+  useEffect(() => {
+    retrieveData();
+  }, []);
+
+  const retrieveData = async () => {
+    try {
+      const value1 = await AsyncStorage.getItem("selectedPlant");
+      const value2 = await AsyncStorage.getItem("selectedSystem");
+      if (value1 !== null) {
+        setSelectedPlant(value1);
+      }
+      if (value2 !== null) {
+        setSelectedSystem(value2);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handlePlantSelection = (value) => {
     setSelectedPlant(value);
@@ -14,9 +34,14 @@ export default function App() {
     setSelectedSystem(value);
   };
 
-  const handleSave = () => {
-    // handle save logic here
-    ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
+  const handleSave = async () => {
+    try {
+      await AsyncStorage.setItem("selectedPlant", selectedPlant);
+      await AsyncStorage.setItem("selectedSystem", selectedSystem);
+      ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

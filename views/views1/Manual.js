@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastAndroid } from "react-native";
 import {
   View,
@@ -8,17 +8,44 @@ import {
   StyleSheet,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WateringForm() {
   const [amount, setAmount] = useState("");
   const [selectedSystem, setSelectedSystem] = useState("");
   const [time, setTime] = useState("");
 
-  const handleSubmit = () => {
-    console.log(`Amount: ${amount}, System: ${selectedSystem}, Time: ${time}`);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const amountValue = await AsyncStorage.getItem("amount");
+        const systemValue = await AsyncStorage.getItem("system");
+        const timeValue = await AsyncStorage.getItem("time");
+        if (amountValue !== null) {
+          setAmount(amountValue);
+        }
+        if (systemValue !== null) {
+          setSelectedSystem(systemValue);
+        }
+        if (timeValue !== null) {
+          setTime(timeValue);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getData();
+  }, []);
 
-    // handle save logic here
-    ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
+  const handleSubmit = async () => {
+    try {
+      await AsyncStorage.setItem("amount", amount);
+      await AsyncStorage.setItem("system", selectedSystem);
+      await AsyncStorage.setItem("time", time);
+      ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleSystemSelection = (value) => {

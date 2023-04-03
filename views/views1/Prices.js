@@ -7,6 +7,7 @@ import carot from "../../assets/fruit/carot.jpg";
 import xoai from "../../assets/fruit/xoai.jpg";
 import cam from "../../assets/fruit/cam.jpg";
 import thanhlong from "../../assets/fruit/thanhlong.png";
+import TabBar from "../../components/TabBar";
 
 import {
   View,
@@ -87,19 +88,27 @@ const Prices = () => {
   );
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Tìm kiếm nông sản"
-        onChangeText={handleSearch}
-        value={search}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+      <View style={styles.items}>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Tìm kiếm nông sản"
+          onChangeText={handleSearch}
+          value={search}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+      </View>
+
       <FlatList
+        style={styles.items}
         data={filteredData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
+
+      <View style={styles.tabbar}>
+        <TabBar />
+      </View>
     </View>
   );
 };
@@ -107,9 +116,14 @@ const Prices = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    justifyContent: "space-between",
+  },
+  items: {
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
+  tabbar: {},
   searchBar: {
     height: 40,
     borderWidth: 1,

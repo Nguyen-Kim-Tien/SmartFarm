@@ -5,16 +5,34 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorType, setErrorType] = useState(""); // khởi tạo state errorType
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Xử lý đăng nhập tại đây
+    // if (email === "icetea@hcmut.edu.vn" && password === "12345678") {
+    //   // đăng nhập thành công
+    //   navigation.navigate("Option");
+    // } else {
+    //   // đăng nhập thất bại
+    //   if (!email && !password) {
+    //     setErrorType("Bạn chưa nhập email và mật khẩu");
+    //   } else if (!email) {
+    //     setErrorType("Bạn chưa nhập email");
+    //   } else if (!password) {
+    //     setErrorType("Bạn chưa nhập mật khẩu");
+    //   } else {
+    //     setErrorType("Sai thông tin đăng nhập");
+    //   }
+    //   setErrorModalVisible(true);
+    // }
     navigation.navigate("Option");
   };
 
@@ -51,6 +69,26 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Modal
+        visible={errorModalVisible}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Text style={styles.modalText}> {errorType} </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setErrorModalVisible(false);
+                setErrorType(""); // reset lại giá trị errorType
+              }}
+              style={styles.modalButton}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -127,6 +165,36 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
     color: "#fff",
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modal: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "red",
+  },
+  modalButton: {
+    backgroundColor: "green",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignSelf: "center",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
