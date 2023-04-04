@@ -25,36 +25,41 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const HomeScreen = () => {
   const [weatherData, setWeatherData] = useState(null);
-
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      const response = await fetch(
-        "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
-      );
-      const json = await response.json();
-      setWeatherData(json);
-    };
-    fetchWeatherData();
-  }, []);
+  const [weatherRealTime, setWeatherRealTime] = useState(null);
 
   // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const [weatherData, weatherRealTime] = await Promise.all([
-  //       fetch(
-  //         "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
-  //       ).then((res) => res.json()),
-  //       fetch(
-  //         "https://api.openweathermap.org/data/2.5/weather?q=Ho%20chi%20minh&units=metric&appid=d78fd1588e1b7c0c2813576ba183a667"
-  //       ).then((res) => res.json()),
-  //     ]);
-  //     setWeatherData(weatherData);
-  //     setWeatherRealTime(weatherRealTime);
+  //   const fetchWeatherData = async () => {
+  //     const response = await fetch(
+  //       "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
+  //     );
+  //     const json = await response.json();
+  //     setWeatherData(json);
   //   };
-
-  //   fetchData();
+  //   fetchWeatherData();
   // }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const [weatherData, weatherRealTime] = await Promise.all([
+        fetch(
+          "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
+        ).then((res) => res.json()),
+        fetch(
+          "https://api.openweathermap.org/data/2.5/weather?q=Ho%20chi%20minh&units=metric&appid=d78fd1588e1b7c0c2813576ba183a667"
+        ).then((res) => res.json()),
+      ]);
+      setWeatherData(weatherData);
+      setWeatherRealTime(weatherRealTime);
+    };
+
+    fetchData();
+  }, []);
+
   if (!weatherData) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (!weatherRealTime) {
     return <Text>Loading...</Text>;
   }
 
@@ -121,22 +126,22 @@ const HomeScreen = () => {
             <View style={styles.left}>
               <View style={styles.location}>
                 <AntDesign name="enviroment" size={30} color="black" />
-                <Text style={styles.locationText}>{weatherData.city.name}</Text>
+                <Text style={styles.locationText}>{weatherRealTime.name}</Text>
               </View>
-              <Text style={styles.temp}>{weatherData.list[0].main.temp}°C</Text>
+              <Text style={styles.temp}>{weatherRealTime.main.temp}°C</Text>
               <Text style={styles.label}>
-                Cảm giác như: {weatherData.list[0].main.feels_like}
+                Cảm giác như: {weatherRealTime.main.feels_like}
               </Text>
             </View>
 
             <Image
               style={styles.image1}
               source={
-                weatherData.list[0].main.temp > 33
+                weatherRealTime.main.temp > 33
                   ? sun
-                  : weatherData.list[0].main.temp > 28
+                  : weatherRealTime.main.temp > 28
                   ? sunrain
-                  : weatherData.list[0].main.temp > 25
+                  : weatherRealTime.main.temp > 25
                   ? cloud
                   : rain
               }

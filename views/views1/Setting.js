@@ -17,6 +17,9 @@ const Setting = () => {
   const handleLogout = () => {
     navigation.navigate("Login");
   };
+  const handleCheckVermin = () => {
+    navigation.navigate("CheckVermin");
+  };
   const [toggle1, setToggle1] = useState(false);
   const [toggle2, setToggle2] = useState(false);
   return (
@@ -39,8 +42,11 @@ const Setting = () => {
           <Text style={styles.text}>Chỉnh sửa thông tin cá nhân</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Thay đổi mật khẩu</Text>
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={handleCheckVermin}
+        >
+          <Text style={styles.text}>Kiểm tra sâu bọ</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
         <View style={styles.toggleContainer}>

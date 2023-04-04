@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastAndroid } from "react-native";
 import {
   View,
@@ -8,17 +8,44 @@ import {
   StyleSheet,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WateringForm() {
   const [amount, setAmount] = useState("");
   const [selectedSystem, setSelectedSystem] = useState("");
   const [time, setTime] = useState("");
 
-  const handleSubmit = () => {
-    console.log(`Amount: ${amount}, System: ${selectedSystem}, Time: ${time}`);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const amountValue = await AsyncStorage.getItem("amount");
+        const systemValue = await AsyncStorage.getItem("system");
+        const timeValue = await AsyncStorage.getItem("time");
+        if (amountValue !== null) {
+          setAmount(amountValue);
+        }
+        if (systemValue !== null) {
+          setSelectedSystem(systemValue);
+        }
+        if (timeValue !== null) {
+          setTime(timeValue);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getData();
+  }, []);
 
-    // handle save logic here
-    ToastAndroid.show("Saved successfully!", ToastAndroid.SHORT);
+  const handleSubmit = async () => {
+    try {
+      await AsyncStorage.setItem("amount", amount);
+      await AsyncStorage.setItem("system", selectedSystem);
+      await AsyncStorage.setItem("time", time);
+      ToastAndroid.show("Lưu thay đổi thành công !", ToastAndroid.SHORT);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleSystemSelection = (value) => {
@@ -27,15 +54,13 @@ export default function WateringForm() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>
-        1. Enter the amount of water to irrigate:
-      </Text>
+      <Text style={styles.question}>1. Nhập lượng nước cần tưới:</Text>
       <TextInput
         style={styles.input}
         value={amount}
         onChangeText={(text) => setAmount(text)}
       />
-      <Text style={styles.question}>2. Choose automatic watering systems:</Text>
+      <Text style={styles.question}>2. Chọn hệ thống tưới:</Text>
       <View style={styles.radioContainer}>
         <View style={styles.radioItem2}>
           <TouchableOpacity
@@ -46,7 +71,7 @@ export default function WateringForm() {
             }
             onPress={() => handleSystemSelection("Drip irrigation system")}
           >
-            <Text style={styles.radioText}>Drip irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới nhỏ giọt</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem2}>
@@ -58,7 +83,7 @@ export default function WateringForm() {
             }
             onPress={() => handleSystemSelection("Sprinkler irrigation system")}
           >
-            <Text style={styles.radioText}>Sprinkler irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới phun sương</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.radioItem2}>
@@ -70,11 +95,11 @@ export default function WateringForm() {
             }
             onPress={() => handleSystemSelection("Lawn irrigation system")}
           >
-            <Text style={styles.radioText}>Lawn irrigation system</Text>
+            <Text style={styles.radioText}>Hệ thống tưới cỏ</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.question}>3. Choose time:</Text>
+      <Text style={styles.question}>3. Thiết lập thời gian:</Text>
       <View style={styles.dropdown}>
         <Picker
           selectedValue={time}
@@ -107,7 +132,7 @@ export default function WateringForm() {
         </Picker>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.radioText}>Save</Text>
+        <Text style={styles.radioText}>Thiết lập</Text>
       </TouchableOpacity>
     </View>
   );
@@ -127,6 +152,8 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
     backgroundColor: "#fff",
+    color: "red",
+    fontSize: 20,
   },
   question: {
     fontSize: 18,

@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./views/Login";
 import Option from "./views/Option";
+import CheckVermin from "./views/CheckVermin";
 
 import HomeView1 from "./views/views1/Home";
 import SettingView1 from "./views/views1/Setting";
@@ -16,8 +17,11 @@ import SettingView2 from "./views/views2/Setting";
 import AutomaticView2 from "./views/views2/Automatic";
 import ManualView2 from "./views/views2/Manual";
 import ViewDeviceList from "./views/views2/ViewDeviceList";
-import HumiditySensor from "./views/views2/HumiditySensor";
-import Detail from "./views/views2/Detail";
+import DHT20 from "./views/views2/Device/DHT20";
+import YoloBit from "./views/views2/Device/YoloBit";
+import EYoloBit from "./views/views2/Device/EYoloBit";
+import Humidity from "./views/views2/Device/Humidity";
+import Light from "./views/views2/Device/Light";
 
 const Stack = createStackNavigator();
 
@@ -54,10 +58,9 @@ const App = () => {
         <Stack.Screen
           name="ViewDeviceList"
           component={ViewDeviceList}
-          options={{ title: "Xem thiết bị" }}
+          options={{ title: "Xem danh sách thiết bị" }}
         />
-        <Stack.Screen name="HumiditySensor" component={HumiditySensor} />
-        <Stack.Screen name="Detail" component={Detail} />
+
         <Stack.Screen
           name="AutomaticView1"
           component={AutomaticView1}
@@ -87,6 +90,36 @@ const App = () => {
           name="News"
           component={News}
           options={{ title: "Tin tức nông sản" }}
+        />
+        <Stack.Screen
+          name="CheckVermin"
+          component={CheckVermin}
+          options={{ title: "Kiểm tra sâu bọ" }}
+        />
+        <Stack.Screen
+          name="DHT20"
+          component={DHT20}
+          options={{ title: "Cảm biến nhiệt độ độ ẩm DHT20" }}
+        />
+        <Stack.Screen
+          name="YoloBit"
+          component={YoloBit}
+          options={{ title: "Yolo-Bit" }}
+        />
+        <Stack.Screen
+          name="EYoloBit"
+          component={EYoloBit}
+          options={{ title: "Mạch mở rộng cho Yolo-Bit" }}
+        />
+        <Stack.Screen
+          name="Humidity"
+          component={Humidity}
+          options={{ title: "Cảm biến độ ẩm đất" }}
+        />
+        <Stack.Screen
+          name="Light"
+          component={Light}
+          options={{ title: "Cảm biến ánh sáng" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

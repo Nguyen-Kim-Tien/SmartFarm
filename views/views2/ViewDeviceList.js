@@ -5,16 +5,29 @@ import { useNavigation } from "@react-navigation/native";
 
 const ViewDeviceList = () => {
   const navigation = useNavigation();
-  const handleHumiditySensor = () => {
-    navigation.navigate("HumiditySensor");
+  const handleViewDHT20 = () => {
+    navigation.navigate("DHT20");
   };
+  const handleViewYoloBit = () => {
+    navigation.navigate("YoloBit");
+  };
+  const handleViewExtendYoloBit = () => {
+    navigation.navigate("EYoloBit");
+  };
+  const handleViewHumidity = () => {
+    navigation.navigate("Humidity");
+  };
+  const handleViewLight = () => {
+    navigation.navigate("Light");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.userInfo}>
           <Image
             source={{
-              uri: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=yyqrNnS37uQAX_711RT&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfDtS7b9pERnmN5-mJtJH6J13Ss2HDlvfKjWeQMYWYC2eQ&oe=64175225",
+              uri: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/301632140_1448536232323376_1500603615049683013_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=YEQXkLuAfogAX8O5ilP&_nc_ht=scontent.fhan14-3.fna&oh=00_AfAWqSMXEFhp9JCszBcRnx3MES0NQDbNMM6OXJbZNTx_8w&oe=641F3B25",
             }}
             style={styles.userAvatar}
           />
@@ -24,18 +37,34 @@ const ViewDeviceList = () => {
 
       <View style={styles.content}>
         <Text style={styles.redText}>Device</Text>
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text} onPress={handleHumiditySensor}>
-            Humidity sensor{" "}
-          </Text>
+        <TouchableOpacity style={styles.rowContainer} onPress={handleViewDHT20}>
+          <Text style={styles.text}>Cảm biến nhiệt độ độ ẩm DHT20</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Temperature sensor</Text>
+
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={handleViewHumidity}
+        >
+          <Text style={styles.text}>Cảm biến độ ẩm đất</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Light Sensor</Text>
+        <TouchableOpacity style={styles.rowContainer} onPress={handleViewLight}>
+          <Text style={styles.text}>Cảm biến ánh sáng</Text>
+          <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={handleViewYoloBit}
+        >
+          <Text style={styles.text}>Yolo-Bit</Text>
+          <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={handleViewExtendYoloBit}
+        >
+          <Text style={styles.text}>Mạch mở rộng cho Yolo-Bit</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
       </View>

@@ -10,11 +10,15 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import TabBar2 from "../../components/TabBar2";
 
 const Setting = () => {
   const navigation = useNavigation();
   const handleViewDeviceList = () => {
     navigation.navigate("ViewDeviceList");
+  };
+  const handleCheckVermin = () => {
+    navigation.navigate("CheckVermin");
   };
   const handleLogout = () => {
     navigation.navigate("Login");
@@ -41,8 +45,11 @@ const Setting = () => {
           <Text style={styles.text}>Chỉnh sửa thông tin cá nhân</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.text}>Thay đổi mật khẩu</Text>
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={handleCheckVermin}
+        >
+          <Text style={styles.text}>Kiểm tra sâu bọ</Text>
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.rowContainer}>
@@ -74,6 +81,7 @@ const Setting = () => {
           <Icon name="keyboard-arrow-right" size={20} style={styles.icon} />
         </TouchableOpacity>
       </View>
+      <TabBar2 />
     </View>
   );
 };

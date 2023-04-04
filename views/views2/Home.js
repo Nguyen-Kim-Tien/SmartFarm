@@ -1,4 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import rain from "../../assets/weather/rain.png";
+import sun from "../../assets/weather/sun.png";
+import sunrain from "../../assets/weather/sunrain.png";
+import cloud from "../../assets/weather/cloud.png";
+import TabBar2 from "../../components/TabBar2";
+import {
+  AntDesign,
+  Entypo,
+  FontAwesome5,
+  FontAwesome,
+  MaterialCommunityIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import {
   StyleSheet,
   View,
@@ -9,65 +22,82 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { FontAwesome } from "@expo/vector-icons";
-
-const data = [
-  {
-    hour: "12:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "25°C",
-  },
-  {
-    hour: "13:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "26°C",
-  },
-  {
-    hour: "14:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "27°C",
-  },
-  {
-    hour: "15:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "21°C",
-  },
-  {
-    hour: "16:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "29°C",
-  },
-  {
-    hour: "17:00",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBbYXOXm-1AnKm3Bi2KJTqkSAriQonECPdQ&usqp=CAU",
-    temperature: "25°C",
-  },
-];
 
 const HomeScreen = () => {
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      const response = await fetch(
+        "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
+      );
+      const json = await response.json();
+      setWeatherData(json);
+    };
+    fetchWeatherData();
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const [weatherData, weatherRealTime] = await Promise.all([
+  //       fetch(
+  //         "https://api.openweathermap.org/data/2.5/forecast?q=Ho%20Chi%20Minh&units=metric&appid=05e89b040c9ca6ccc33fbdd46c4c3272"
+  //       ).then((res) => res.json()),
+  //       fetch(
+  //         "https://api.openweathermap.org/data/2.5/weather?q=Ho%20chi%20minh&units=metric&appid=d78fd1588e1b7c0c2813576ba183a667"
+  //       ).then((res) => res.json()),
+  //     ]);
+  //     setWeatherData(weatherData);
+  //     setWeatherRealTime(weatherRealTime);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  if (!weatherData) {
+    return <Text>Loading...</Text>;
+  }
+
+  const extractedData =
+    weatherData &&
+    weatherData.list &&
+    weatherData.list.map((item) => ({
+      temp: item.main.temp,
+      dt_txt: item.dt_txt,
+      weather: item.weather[0].main,
+    }));
+  const now = new Date();
+  const currentDateTime = now.getTime();
+  const last24HoursDateTime = currentDateTime - 24 * 60 * 60 * 1000;
+  const last24HoursItems =
+    extractedData &&
+    extractedData
+      .filter((item) => new Date(item.dt_txt).getTime() >= last24HoursDateTime)
+      .slice(0, 24);
+
+  const data =
+    last24HoursItems &&
+    last24HoursItems.map((item) => {
+      const date = item.dt_txt.slice(8, 10);
+      const month = item.dt_txt.slice(5, 7);
+      const time = item.dt_txt.slice(11, 16);
+      const formattedDate = `${date}-${month}`;
+      return {
+        temperature: item.temp,
+        dateTime: `${formattedDate} ${time}`,
+        weather: item.weather,
+      };
+    });
+
   const navigation = useNavigation();
-  const handleClickSetting = () => {
-    navigation.navigate("SettingView2");
-  };
+
   const handleAutomatic = () => {
     navigation.navigate("AutomaticView2");
   };
   const handleManual = () => {
     navigation.navigate("ManualView2");
   };
-  const handlePrice = () => {
-    navigation.navigate("Price");
-  };
 
-  const handleNews = () => {
-    navigation.navigate("News");
-  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -87,25 +117,66 @@ const HomeScreen = () => {
 
       <View style={styles.weather}>
         <View style={styles.rectangle1}>
-          <View style={styles.left}>
-            <Text style={styles.label}>Nhiệt độ: 25 °C</Text>
+          <View style={styles.flexRow}>
+            <View style={styles.left}>
+              <View style={styles.location}>
+                <AntDesign name="enviroment" size={30} color="black" />
+                <Text style={styles.locationText}>{weatherData.city.name}</Text>
+              </View>
+              <Text style={styles.temp}>{weatherData.list[0].main.temp}°C</Text>
+              <Text style={styles.label}>
+                Cảm giác như: {weatherData.list[0].main.feels_like}
+              </Text>
+            </View>
 
-            <Text style={styles.label}>Độ ẩm: 75 %</Text>
-            <Text style={styles.label}>Cảm giác như: 26 °C</Text>
+            <Image
+              style={styles.image1}
+              source={
+                weatherData.list[0].main.temp > 33
+                  ? sun
+                  : weatherData.list[0].main.temp > 28
+                  ? sunrain
+                  : weatherData.list[0].main.temp > 25
+                  ? cloud
+                  : rain
+              }
+            />
           </View>
-          <Image
-            style={styles.image1}
-            source={{
-              uri: "https://banner2.cleanpng.com/20190519/bhs/kisspng-clip-art-quotation-image-portable-network-graphics-partly-clipart-partly-cloudy-picture-157291-part-5ce18e0dd97949.3207985015582858378908.jpg",
-            }}
-          />
+          <View style={styles.flexRow}>
+            <View style={styles.flexRow1}>
+              <MaterialCommunityIcons
+                name="air-humidifier"
+                size={24}
+                color="black"
+              />
+              <Text style={styles.label}>
+                {weatherData.list[0].main.humidity}%
+              </Text>
+            </View>
+            <View style={styles.flexRow1}>
+              <Entypo name="light-up" size={24} color="black" />
+              <Text style={styles.label}>
+                {weatherData.list[0].main.humidity}%
+              </Text>
+            </View>
+          </View>
         </View>
-
         <ScrollView horizontal={true} style={styles.scrollView}>
           {data.map((item, index) => (
             <View key={index} style={styles.rectangle}>
-              <Text style={styles.hour}>{item.hour}</Text>
-              <Image style={styles.image} source={{ uri: item.image }} />
+              <Text style={styles.hour}>{item.dateTime}</Text>
+              <Image
+                style={styles.image}
+                source={
+                  item.temperature > 33
+                    ? sun
+                    : item.temperature > 28
+                    ? sunrain
+                    : item.temperature > 25
+                    ? cloud
+                    : rain
+                }
+              />
               <Text style={styles.temperature}>{item.temperature}</Text>
             </View>
           ))}
@@ -152,76 +223,7 @@ const HomeScreen = () => {
         </View>
       </View>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-end",
-          backgroundColor: "#f2f2f2",
-          paddingBottom: 10,
-          paddingHorizontal: 20,
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: "center",
-            paddingVertical: 10,
-          }}
-          onPress={handlePrice}
-        >
-          <FontAwesome name="home" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: "center",
-            paddingVertical: 10,
-          }}
-          onPress={handleNews}
-        >
-          <FontAwesome name="search" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "white",
-            borderRadius: 50,
-            width: 60,
-            height: 60,
-            marginBottom: 10,
-            marginTop: -20,
-            shadowColor: "black",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 2,
-            elevation: 2,
-          }}
-        >
-          <FontAwesome name="home" size={36} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: "center",
-            paddingVertical: 10,
-          }}
-        >
-          <FontAwesome name="heart" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: "center",
-            paddingVertical: 10,
-          }}
-          onPress={handleClickSetting}
-        >
-          <FontAwesome name="gear" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <TabBar2 />
     </View>
   );
 };
@@ -261,11 +263,17 @@ const styles = StyleSheet.create({
   weather: {
     alignItems: "center",
     justifyContent: "center",
-
     flex: 4,
   },
-  rectangle1: {
+  flexRow: {
+    width: "100%",
     flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  flexRow1: {
+    flexDirection: "row",
+  },
+  rectangle1: {
     width: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -278,9 +286,24 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  location: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  locationText: {
+    fontSize: 20,
+  },
   left: {
     alignItems: "flex-start",
     justifyContent: "center",
+  },
+  footerWeather: {
+    flexDirection: "row",
+  },
+  temp: {
+    fontSize: 45,
+    fontWeight: "bold",
+    marginLeft: 10,
   },
   temperature1: {
     fontSize: 30,
