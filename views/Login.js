@@ -17,23 +17,22 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // if (email === "icetea@hcmut.edu.vn" && password === "12345678") {
-    //   // đăng nhập thành công
-    //   navigation.navigate("Option");
-    // } else {
-    //   // đăng nhập thất bại
-    //   if (!email && !password) {
-    //     setErrorType("Bạn chưa nhập email và mật khẩu");
-    //   } else if (!email) {
-    //     setErrorType("Bạn chưa nhập email");
-    //   } else if (!password) {
-    //     setErrorType("Bạn chưa nhập mật khẩu");
-    //   } else {
-    //     setErrorType("Sai thông tin đăng nhập");
-    //   }
-    //   setErrorModalVisible(true);
-    // }
-    navigation.navigate("Option");
+    if (email === "icetea@hcmut.edu.vn" && password === "12345678") {
+      // đăng nhập thành công
+      navigation.navigate("Option");
+    } else {
+      // đăng nhập thất bại
+      if (!email && !password) {
+        setErrorType("Bạn chưa nhập email và mật khẩu");
+      } else if (!email) {
+        setErrorType("Bạn chưa nhập email");
+      } else if (!password) {
+        setErrorType("Bạn chưa nhập mật khẩu");
+      } else {
+        setErrorType("Sai thông tin đăng nhập");
+      }
+      setErrorModalVisible(true);
+    }
   };
 
   return (
