@@ -11,7 +11,7 @@ import AutomaticView1 from "./views/views1/Automatic";
 import ManualView1 from "./views/views1/Manual";
 import Price from "./views/views1/Prices";
 import News from "./views/views1/News";
-
+import Chart from "./views/views2/Chart";
 import HomeView2 from "./views/views2/Home";
 import SettingView2 from "./views/views2/Setting";
 import AutomaticView2 from "./views/views2/Automatic";
@@ -80,10 +80,16 @@ const App = () => {
           component={AutomaticView2}
           options={{ title: "Thiết lập tưới tự động" }}
         />
+
         <Stack.Screen
           name="ManualView2"
           component={ManualView2}
           options={{ title: "Thiết lập tưới thủ công" }}
+        />
+        <Stack.Screen
+          name="Chart"
+          component={Chart}
+          options={{ title: "Phân tích dữ liệu" }}
         />
         <Stack.Screen
           name="Price"

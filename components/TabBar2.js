@@ -76,7 +76,7 @@ const TabBar = () => {
           alignItems: "center",
           paddingVertical: 10,
         }}
-        onPress={() => handleTabClick("Analytics")}
+        onPress={() => handleTabClick("Chart")}
       >
         <MaterialCommunityIcons name="google-analytics" size={26} />
       </TouchableOpacity>
