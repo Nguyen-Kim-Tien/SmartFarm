@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import bcrypt from "bcryptjs";
+import { Alert } from "react-native";
 
 import {
   View,
@@ -13,30 +14,74 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [errorType, setErrorType] = useState(""); // khởi tạo state errorType
   const navigation = useNavigation();
-
-  const handleLogin = () => {
-    if (email === "icetea@hcmut.edu.vn" && password === "12345678") {
-      // đăng nhập thành công
-      navigation.navigate("Option");
-    } else {
-      // đăng nhập thất bại
-      if (!email && !password) {
-        setErrorType("Bạn chưa nhập email và mật khẩu");
-      } else if (!email) {
-        setErrorType("Bạn chưa nhập email");
-      } else if (!password) {
-        setErrorType("Bạn chưa nhập mật khẩu");
-      } else {
-        setErrorType("Sai thông tin đăng nhập");
-      }
-      setErrorModalVisible(true);
-    }
+  const handleRegister = () => {
+    navigation.navigate("Register");
   };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userFinal, setUserFinal] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    setUserFinal({
+      email: email,
+      password: password,
+    });
+  }, [email, password]);
+  const image = {
+    uri: "https://i.pinimg.com/564x/eb/23/16/eb2316a4c199cb12436f6b9f440a2330.jpg",
+  };
+
+  // const user = { id: 101, username: 'tuanquyen', password: '123456' }
+
+  const handleLogin = async () => {
+    console.log(userFinal);
+    if (email === "" || password === "") {
+      Alert.alert("Thông báo", "Hãy điền đầy đủ thông tin");
+      return;
+    }
+
+    const res = await client.post("/sign-in", {
+      // truy cập tới database để kiểm tra và thêm user
+      ...userFinal,
+    });
+    console.log(res.data);
+    if (res && res.data.success === false) {
+      Alert.alert("Thông báo", "Sai email hoặc password hoặc cả hai");
+      setEmail("");
+      setPassword("");
+      return;
+    }
+
+    setEmail("");
+    setPassword("");
+    navigation.navigate("Option");
+  };
+
+  // const handleLogin = () => {
+  //   if (email === "icetea@hcmut.edu.vn" && password === "12345678") {
+  //     // đăng nhập thành công
+  //     navigation.navigate("Option");
+  //   } else {
+  //     // đăng nhập thất bại
+  //     if (!email && !password) {
+  //       setErrorType("Bạn chưa nhập email và mật khẩu");
+  //     } else if (!email) {
+  //       setErrorType("Bạn chưa nhập email");
+  //     } else if (!password) {
+  //       setErrorType("Bạn chưa nhập mật khẩu");
+  //     } else {
+  //       setErrorType("Sai thông tin đăng nhập");
+  //     }
+  //     setErrorModalVisible(true);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -65,7 +110,7 @@ const LoginScreen = () => {
         <TouchableOpacity>
           <Text style={styles.forgotPassword}>Quên mật khẩu</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.createAccount}>
             Bạn chưa có tài khoản. Tạo ngay
           </Text>
